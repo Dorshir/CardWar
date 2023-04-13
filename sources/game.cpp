@@ -4,14 +4,24 @@
 
 void Game::CreateGame() {
 
-    // Initializing cards deck
-    this->InitNewCardsDeck();
+    if(player1.stacksize() == 0 && player2.stacksize() == 0) {
 
-    // Shuffle the deck
-    this->ShuffleDeck();
+        player1.setWinCounter(0);
+        player2.setWinCounter(0);
 
-    // Dealing the cards to the players
-    this->DealingCards();
+        // Initializing cards deck
+        this->InitNewCardsDeck();
+
+        // Shuffle the deck
+        this->ShuffleDeck();
+
+        // Dealing the cards to the players
+        this->DealingCards();
+    }
+    else{
+        throw std::invalid_argument("One or more players has already playing another game.");
+    }
+
 }
 
 void ::Game::InitNewCardsDeck() {
@@ -103,14 +113,21 @@ void Game::playTurn() {
                     " played " + player2.getDeck().front().toString() + ". Draw. ";
             setLastTurnString(getLastTurnString() + appending);
             player1.getDeck().erase(player1.getDeck().begin()); // Erase 1 card
-            player1.getDeck().erase(player1.getDeck().begin()); // Erase 1 card
+            player2.getDeck().erase(player2.getDeck().begin()); // Erase 1 card
 
             if(player1.stacksize() == 0) { // Last card through a draw, each player take his own cards
-                player2.setCardsTaken(player2.cardesTaken() + 1);
                 player1.setCardsTaken(player1.cardesTaken() + 1);
+                player2.setCardsTaken(player2.cardesTaken() + 1);
                 return;
             }
-            player2.getDeck().erase(player2.getDeck().begin()); // Erase 1 card
+            else if(player1.stacksize() == 1){ // One card before the last card through a draw, each player take his own cards
+                player1.getDeck().erase(player1.getDeck().begin()); // Erase 1 card
+                player2.getDeck().erase(player2.getDeck().begin()); // Erase 1 card
+                player1.setCardsTaken(player1.cardesTaken() + 2);
+                player2.setCardsTaken(player2.cardesTaken() + 2);
+                return;
+            }
+            player1.getDeck().erase(player1.getDeck().begin()); // Erase 1 card
             player2.getDeck().erase(player2.getDeck().begin()); // Erase 1 card
             cardCount = cardCount + 4; // 4 cards via draw
         }
@@ -133,13 +150,13 @@ void Game::printStats() {
     printPlayerStats(player2);
 
     int draws = getDraws();
-    double drawRate = double(draws) / 26.0;
+    double drawRate = double(draws) / (player1.getWinCounter() + player2.getWinCounter());
     std::cout << "[**] Draw rate: " << drawRate << std::endl << "[**] Draws amount: " << draws << std::endl;
 }
 
 void Game::printPlayerStats(Player &player) {
 
-    double playerWinRate = double(player.getWinCounter()) / 26.0;
+    double playerWinRate = double(player.getWinCounter()) / (player1.getWinCounter() + player2.getWinCounter());
     std::cout << "[*] Player name: " << player.getName() << std::endl << std::endl << "[*] Win rate: " << playerWinRate
               << std::endl;
 
