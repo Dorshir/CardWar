@@ -18,6 +18,8 @@ public:
 
     Card(std::string name, std::string size) : type_(std::move(name)), rank_(std::move(size)) {}
 
+    ~Card();
+
     // Copy constructor
     Card(const Card &other) : rank_(other.rank_), type_(other.type_) {}
 
