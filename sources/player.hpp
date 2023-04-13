@@ -45,8 +45,8 @@ public:
         this->deck = d;
     }
 
-    void setCardsTaken(int i) {
-        cardsTaken = i;
+    void setCardsTaken(int amount) {
+        cardsTaken = amount;
     }
 
 };

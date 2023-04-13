@@ -10,7 +10,7 @@ namespace ariel {}
 class Card {
 
 private:
-    
+
     std::string rank_;
     std::string type_;
 
@@ -24,11 +24,16 @@ public:
     // Copy assignment operator overload
     Card &operator=(const Card &other);
 
+    Card(Card&& other) noexcept {
+        rank_ = other.getRank();
+        type_ = other.getType();
+    }
+
     // Relational operator overload
     bool operator<(const Card &other) const;
 
     // Custom swap function for Card objects
-    friend void swap(Card &a, Card &b) noexcept;
+    friend void swap(Card &first, Card &second) noexcept;
 
     [[nodiscard]] const std::string &getRank() const {
         return rank_;
