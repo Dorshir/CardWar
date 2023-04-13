@@ -31,8 +31,8 @@ public:
     Card& operator=(Card&& other) noexcept;
 
     Card(Card&& other) noexcept : rank_(other.rank_), type_(other.type_) {
-        other.type_ = nullptr;
-        other.rank_ = nullptr;
+        other.type_ = "INVALID";
+        other.rank_ = "INVALID";
     }
 
     // Relational operator overload
