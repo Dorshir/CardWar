@@ -41,14 +41,13 @@ public:
         Player::winCounter = wins;
     }
 
-    void setDeck(const std::vector<Card> &d) {
-        this->deck = d;
+    void setDeck(const std::vector<Card> &newDeck) {
+        this->deck = newDeck;
     }
 
     void setCardsTaken(int amount) {
         cardsTaken = amount;
     }
-
 };
 
 #endif

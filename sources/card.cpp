@@ -32,6 +32,16 @@ Card &Card::operator=(const Card &other) {
     return *this;
 }
 
+Card &Card::operator=(Card &&other) noexcept {
+    if (this != &other) {
+        this->rank_ = other.rank_;
+        this->type_ = other.type_;
+        other.rank_ = nullptr;
+        other.type_ = nullptr;
+    }
+    return *this;
+}
+
 void swap(Card &first, Card &second) noexcept {
     std::swap(first.rank_, second.rank_);
     std::swap(first.type_, second.type_);

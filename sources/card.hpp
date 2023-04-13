@@ -18,6 +18,7 @@ public:
 
     Card(std::string name, std::string size) : type_(std::move(name)), rank_(std::move(size)) {}
 
+    // Destructor
     ~Card();
 
     // Copy constructor
@@ -26,9 +27,12 @@ public:
     // Copy assignment operator overload
     Card &operator=(const Card &other);
 
-    Card(Card&& other) noexcept {
-        rank_ = other.getRank();
-        type_ = other.getType();
+    // Move assignment
+    Card& operator=(Card&& other) noexcept;
+
+    Card(Card&& other) noexcept : rank_{other.getRank()}, type_{other.getType()} {
+        other.type_ = nullptr;
+        other.rank_ = nullptr;
     }
 
     // Relational operator overload
