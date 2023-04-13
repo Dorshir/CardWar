@@ -59,6 +59,7 @@ void Game::printLog() {
 
 void Game::playTurn() {
 
+
     if (&player1 == &player2) throw std::invalid_argument("Cannot play with the same player!");
     if (!GAMEON) GAMEON = true;
     if (player1.stacksize() == 0) throw std::invalid_argument("Players has no turns to play!");
@@ -104,20 +105,25 @@ void Game::playTurn() {
             player1.getDeck().erase(player1.getDeck().begin()); // Erase 1 card
             player1.getDeck().erase(player1.getDeck().begin()); // Erase 1 card
 
+            if(player1.stacksize() == 0) { // Last card through a draw, each player take his own cards
+                player2.setCardsTaken(player2.cardesTaken() + 1);
+                player1.setCardsTaken(player1.cardesTaken() + 1);
+                return;
+            }
             player2.getDeck().erase(player2.getDeck().begin()); // Erase 1 card
             player2.getDeck().erase(player2.getDeck().begin()); // Erase 1 card
-            cardCount = cardCount + 4;
+            cardCount = cardCount + 4; // 4 cards via draw
         }
     }
 
-    if (player1.getDeck().empty()) {
+    if (player1.cardesTaken() == 0) { // Last turn -> set winner/draw
         if (player1.cardesTaken() > player2.cardesTaken()) setWinner(player1.getName());
         else if (player1.cardesTaken() < player2.cardesTaken()) setWinner(player2.getName());
         else {
             setWinner("Constant draw between the players.\n");
         }
     }
-    getLog().push_back(getLastTurnString());
+    getLog().push_back(getLastTurnString()); // Update log
 }
 
 void Game::printStats() {

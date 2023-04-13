@@ -36,8 +36,8 @@ Card &Card::operator=(Card &&other) noexcept {
     if (this != &other) {
         this->rank_ = other.rank_;
         this->type_ = other.type_;
-        other.rank_ = nullptr;
-        other.type_ = nullptr;
+        other.rank_ = "INVALID";
+        other.type_ = "INVALID";
     }
     return *this;
 }
