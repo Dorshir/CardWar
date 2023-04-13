@@ -30,7 +30,7 @@ public:
     // Move assignment
     Card& operator=(Card&& other) noexcept;
 
-    Card(Card&& other) noexcept : rank_{other.rank_}, type_{other.type_} {
+    Card(Card&& other) noexcept : rank_(other.rank_), type_(other.type_) {
         other.type_ = nullptr;
         other.rank_ = nullptr;
     }
